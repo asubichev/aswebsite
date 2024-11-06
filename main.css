@@ -1,16 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans&family=Silkscreen&display=swap');
 
-
 :root {
     --black: #000;
     --white: #fff;
     --green: #0f0;
     --leancolor: #b465f7;
     --nicebg: #dcdca5;
+    --primary-color: #ff7e67;
+    --secondary-color: #ffd9c0;
+    --text-color: #2d4059;
+    --hover-color: #ff9a8b;
 }
 
 * {
-    color: var(--fontColor);
+    color: var(--text-color);
 }
 
 body {
@@ -18,14 +21,14 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-.top-image{
+.top-image {
     width: 20rem;
-    height: 21rem;
+    height: 20rem;
     margin-left: auto;
     margin-right: auto;
     display: block;
-    transform: translate(0, 5rem);
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .my-back { 
@@ -35,7 +38,7 @@ body {
 .center{
     position: absolute;
     left: 50%;
-    top: 50%; /*how high*/
+    top: 50%;
     transform: translate(-50%, -50%);
     padding: 40px;
 }
@@ -65,14 +68,150 @@ section{
     transition: all 1s;
 }
 
+.hidden-top {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translate(calc(-100% - 5rem));
+    transition: all 1s;
+}
+
 @media(prefers-reduced-motion){
     .hidden{
         transition: none;
     }
 }
 
-.show{
+.reveal {
     opacity: 1;
     filter: blur(0);
-    transform: translateX(0);
+    transform: translate(0, 5rem);
+}
+
+.row {
+    width: 300px; /* Initial width to only show tabs */
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: width 0.5s ease-in-out;
+    display: flex;
+    justify-content: center;
+}
+
+/* When any tab is active, expand the row */
+.row:has(.tab-pane.active) {
+    width: 800px;
+}
+
+.col-4 {
+    width: 300px;
+    flex: 0 0 auto;
+}
+
+.col-8 {
+    width: 0;
+    flex: 0 0 auto;
+    overflow: hidden;
+    transition: width 0.5s ease-in-out;
+    display: none; /* Hide by default */
+}
+
+/* When tab content is active, show and expand col-8 */
+.col-8:has(.tab-pane.active) {
+    width: 500px;
+    display: block;
+}
+
+/* Custom styling for the list group items */
+.list-group-item {
+    border: none;
+    margin-bottom: 8px;
+    border-radius: 10px !important;
+    transition: all 0.3s ease;
+    background-color: var(--secondary-color);
+    font-size: 1.2em;
+    padding: 12px 20px;
+}
+
+.list-group-item:hover {
+    background-color: var(--hover-color);
+    transform: translateX(5px);
+}
+
+.list-group-item.active {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: white !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Tab content styling */
+.tab-content {
+    min-height: 100px;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Only show tab content when a tab is active */
+.tab-content:has(.tab-pane.active) {
+    opacity: 1;
+}
+
+.tab-pane {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.list-group {
+    width: 100%;
+}
+
+/* Custom styling for the introduction text */
+.list-group p {
+    color: var(--text-color);
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+/* Animation for tab transitions */
+.fade {
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Initial animation for the row */
+@keyframes slideInToCenter {
+    from {
+        opacity: 0;
+        transform: translateX(-100vw);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.row {
+    animation: slideInToCenter 1s ease-out forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .row, .row:has(.tab-pane.active) {
+        width: 95%;
+        margin: 0 auto;
+    }
+    
+    .col-4, .col-8 {
+        width: 100%;
+    }
 }
