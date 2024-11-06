@@ -21,26 +21,45 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+/* Top section styling */
+.top-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    max-width: 800px;
+    margin: 0 auto 50px auto;
+}
+
 .top-image {
     width: 20rem;
     height: 20rem;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
     border-radius: 50%;
     object-fit: cover;
+    flex-shrink: 0;
+}
+
+.intro-box {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+}
+
+.intro-box p {
+    color: var(--text-color);
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.intro-box p:last-child {
+    margin-bottom: 0;
 }
 
 .my-back { 
     background-color: bisque;
-}
-
-.center{
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    padding: 40px;
 }
 
 section{
@@ -50,45 +69,8 @@ section{
     min-height: 50vh;
 }
 
-.container{
-    align-content: center;
-    place-items: center;
-    display: grid;
-}
-
-.btn-lg{
-    text-align: center;
-    width:150px;
-}
-
-.hidden{
-    opacity: 0;
-    filter:blur(5px);
-    transform: translateX(-100%);
-    transition: all 1s;
-}
-
-.hidden-top {
-    opacity: 0;
-    filter: blur(5px);
-    transform: translate(calc(-100% - 5rem));
-    transition: all 1s;
-}
-
-@media(prefers-reduced-motion){
-    .hidden{
-        transition: none;
-    }
-}
-
-.reveal {
-    opacity: 1;
-    filter: blur(0);
-    transform: translate(0, 5rem);
-}
-
 .row {
-    width: 300px; /* Initial width to only show tabs */
+    width: 380px;
     margin: 0 auto;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 15px;
@@ -96,7 +78,7 @@ section{
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: width 0.5s ease-in-out;
     display: flex;
-    justify-content: center;
+    position: relative;
 }
 
 /* When any tab is active, expand the row */
@@ -105,25 +87,29 @@ section{
 }
 
 .col-4 {
-    width: 300px;
+    width: 340px;
     flex: 0 0 auto;
+    position: relative;
+    z-index: 2;
 }
 
 .col-8 {
+    position: absolute;
+    left: 340px;
+    top: 0;
+    height: 100%;
     width: 0;
-    flex: 0 0 auto;
     overflow: hidden;
-    transition: width 0.5s ease-in-out;
-    display: none; /* Hide by default */
+    transition: all 0.5s ease-in-out;
+    display: none;
+    padding: 20px 0;
 }
 
-/* When tab content is active, show and expand col-8 */
 .col-8:has(.tab-pane.active) {
     width: 500px;
     display: block;
 }
 
-/* Custom styling for the list group items */
 .list-group-item {
     border: none;
     margin-bottom: 8px;
@@ -146,7 +132,6 @@ section{
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Tab content styling */
 .tab-content {
     min-height: 100px;
     position: relative;
@@ -157,9 +142,9 @@ section{
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
+    height: 100%;
 }
 
-/* Only show tab content when a tab is active */
 .tab-content:has(.tab-pane.active) {
     opacity: 1;
 }
@@ -171,24 +156,20 @@ section{
     line-height: 1.6;
 }
 
-.list-group {
-    width: 100%;
+.hidden{
+    opacity: 0;
+    filter:blur(5px);
+    transform: translateX(-100%);
+    transition: all 1s;
 }
 
-/* Custom styling for the introduction text */
-.list-group p {
-    color: var(--text-color);
-    font-size: 1.1em;
-    margin-bottom: 15px;
-    font-weight: 500;
+.reveal {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0);
 }
 
-/* Animation for tab transitions */
-.fade {
-    transition: opacity 0.2s ease-in-out;
-}
-
-/* Initial animation for the row */
+/* Animation for the entire top section */
 @keyframes slideInToCenter {
     from {
         opacity: 0;
@@ -206,12 +187,33 @@ section{
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    .top-section {
+        flex-direction: column;
+        padding: 0 20px;
+    }
+
+    .intro-box {
+        width: 100%;
+    }
+
     .row, .row:has(.tab-pane.active) {
         width: 95%;
         margin: 0 auto;
+        flex-direction: column;
     }
     
-    .col-4, .col-8 {
+    .col-4 {
+        width: 100%;
+    }
+
+    .col-8 {
+        position: relative;
+        left: 0;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .col-8:has(.tab-pane.active) {
         width: 100%;
     }
 }
